@@ -42,6 +42,7 @@ function MultiPlayer() {
   const [items, setItems] = useState([]);
   const [isSubmitNum, setInputSubmitNum] = useState(false);
   const [room, setRoom] = useState("");
+  const [buttonCol, setbuttonCol] = useState("");
   var userNum;
   function handleChange(event) {
     const val = event.target.value;
@@ -81,7 +82,7 @@ function MultiPlayer() {
       
 
       socket.emit("send_prediction", { message:inputText, room } );
-
+      setbuttonCol("buttonRed");
       setInputText("");
   }
   }
@@ -99,6 +100,8 @@ function MultiPlayer() {
     setRoom("");
     console.log(room);
   }
+  
+  
   useEffect(() => {
     socket.on("your_prediction", (data) => {
 
@@ -106,7 +109,7 @@ function MultiPlayer() {
       setItems(prevItems => {
         return [...prevItems, data.message+" "+data.output];
       });
-      
+
     });
   }, [socket]);
   useEffect(() => {
@@ -123,9 +126,16 @@ function MultiPlayer() {
       console.log(num,data.message);
       var ans=getHint(num,data.message);
       socket.emit("output_prediction",{ message:data.message,output : ans , room:data.room});
+      setbuttonCol("buttonGreen");
 
     });
   }, [socket]);
+  console.log(buttonCol=="buttonGreen");
+  // function changeButtonColor(){
+  //   if(buttonCol=="buttonGreen"){
+
+  //   }
+  // }
   return (
     <div className="container">
       <div className="heading">
@@ -147,7 +157,7 @@ function MultiPlayer() {
           <span>My Number</span>
         </button>
         <input onChange={handleChange} type="text" value={inputText} />
-        <button onClick={addItem}>
+        <button onClick={addItem} className={buttonCol} disabled={changeButtonColor}>
           <span>My Prediction</span>
         </button>
 

@@ -38,11 +38,12 @@ io.on("connection", (socket) => {
   else{
     var rm=getRoom(data);
     if(rm.players.length==2){
-      callback("ROOM IS FULL");
+      callback("ROOM IS FULL")
     }else{
       rm.players.push({socketId,active:false});
       socket.join(data);
     }
+    socket.to(socketId).emit("button_col",rooms);
 
   }
     // room.players.push({ socketId });

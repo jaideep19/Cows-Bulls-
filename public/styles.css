@@ -65,6 +65,27 @@ button {
   background-color: #ffeaa7;
   cursor:pointer
 }
+.buttonGreen {
+  padding: 0;
+  border: none;
+  font-family: "Architects Daughter", cursive;
+  text-decoration: none;
+  padding-bottom: 3px;
+  border-radius: 5px;
+  color: #06cc0f;
+  cursor:pointer
+}
+.buttonRed {
+  padding: 0;
+  border: none;
+  font-family: "Architects Daughter", cursive;
+  text-decoration: none;
+  padding-bottom: 3px;
+  border-radius: 5px;
+  color: #920007;
+  /* cursor:pointer */
+}
+
 button span {
   background: #f1f5f8;
   display: block;
