@@ -8,6 +8,8 @@ RUN npm install
 
 RUN npm install -g serve
 
-COPY . .
+RUN npm run build
 
-CMD npm run build
+COPY build /app
+
+CMD serve -s build
