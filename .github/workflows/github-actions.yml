@@ -20,20 +20,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    
-    - name: List files in the repository
-      run: |
-          ls ${{ github.workspace }}
           
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)   
       
-    - name: Docker Login
-      env: 
-        Docker_ID: ${{secrets.Docker_ID}}
-        Docker_PSWD: ${{secrets.Docker_PSWD}}
-      run: docker login -u $Docker_ID -p $Docker_PSWD
+    - name: List files in the repository
+      run: |
+          ls ${{ github.workspace }}
+          
+#     - name: Docker Login
+#       env: 
+#         Docker_ID: ${{secrets.Docker_ID}}
+#         Docker_PSWD: ${{secrets.Docker_PSWD}}
+#       run: docker login -u $Docker_ID -p $Docker_PSWD
       
-    - name: Docker push
-      run: docker push ${{secrets.Docker_ID}}/devops-web-game
+#     - name: Docker push
+#       run: docker push ${{secrets.Docker_ID}}/devops-web-game
   
