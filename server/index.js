@@ -7,10 +7,10 @@ const cors = require("cors");
 app.use(cors());
 
 const server = http.createServer(app);
-
+// cons
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3002",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
@@ -24,6 +24,8 @@ io.on("connection", (socket) => {
   socket.on("join_room", (data,callback) => {
     
     const check = getRoom(data);
+    var flag = false;
+    console.log(data);
     if(!check){ // New Room
     const room = {
       id: data,
@@ -34,26 +36,26 @@ io.on("connection", (socket) => {
     rooms.push(room);
     socket.join(data);
     
-  }
-  else{
-    var rm=getRoom(data);
-    if(rm.players.length==2){
-      callback("ROOM IS FULL")
-    }else{
-      rm.players.push({socketId,active:false});
-      socket.join(data);
     }
-    socket.to(socketId).emit("button_col",rooms);
-
-  }
-    // room.players.push({ socketId });
-    // rooms.push(room);
+    else{
+      var rm=getRoom(data);
+      if(rm.players.length==2){
+        callback("ROOM IS FULL")
+      }else{
+        rm.players.push({socketId,active:false});
+        socket.join(data);
+        socket.to(data).emit("change_color", {color: "green"});
+      }
+      // socket.to(socketId).emit("button_col",rooms);
+    }
     console.log(rooms);
   });
+
   socket.on("send_prediction",(data)=>{
     console.log(data);
     socket.to(data.room).emit("receive_prediction",data);
   });
+
   socket.on("output_prediction",(data)=>{
     console.log(data);
     socket.to(data.room).emit("your_prediction",data);
