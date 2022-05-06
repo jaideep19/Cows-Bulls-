@@ -27,7 +27,8 @@ jobs:
       
     - name: List files in the repository
       run: |
-          ls ${{ github.workspace }}
+          ls ${{ github.workspace }} -a
+    - run: docker image ls
           
     - name: Docker Login
       env: 
@@ -37,3 +38,5 @@ jobs:
       
     - name: Docker push
       run: docker push ${{secrets.Docker_ID}}/devops-web-game
+
+    - run: docker image ls
