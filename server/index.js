@@ -7,7 +7,7 @@ const cors = require("cors");
 app.use(cors());
 
 const server = http.createServer(app);
-// con
+// cons
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",
