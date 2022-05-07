@@ -23,10 +23,10 @@ jobs:
           
     - name: List files in the repository
       run: |
-          ls ${{ github.workspace }}
+          ls
     
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{secrets.Docker_ID}}/devops-web-game-server
+      run: docker build ./server --file Dockerfile --tag ${{secrets.Docker_ID}}/devops-web-game-server
       
     - name: List files in the repository
       run: |
