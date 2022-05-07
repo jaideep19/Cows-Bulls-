@@ -19,27 +19,27 @@ jobs:
 #       run: npm run build
           
     - name: Moving to the server directory
-      run: cd server
+      working-directory: ./server
           
     - name: List files in the repository
       run: |
           ls
     
-    - name: Build the Docker image
-      run: docker build ./server --file Dockerfile --tag ${{secrets.Docker_ID}}/devops-web-game-server
+#     - name: Build the Docker image
+#       run: docker build . --file Dockerfile --tag ${{secrets.Docker_ID}}/devops-web-game-server
       
-    - name: List files in the repository
-      run: |
-          ls ${{ github.workspace }} -a
-    - run: docker image ls
+#     - name: List files in the repository
+#       run: |
+#           ls ${{ github.workspace }} -a
+#     - run: docker image ls
           
-    - name: Docker Login
-      env: 
-        Docker_ID: ${{secrets.Docker_ID}}
-        Docker_PSWD: ${{secrets.Docker_PSWD}}
-      run: docker login -u $Docker_ID -p $Docker_PSWD
+#     - name: Docker Login
+#       env: 
+#         Docker_ID: ${{secrets.Docker_ID}}
+#         Docker_PSWD: ${{secrets.Docker_PSWD}}
+#       run: docker login -u $Docker_ID -p $Docker_PSWD
       
-    - name: Docker push
-      run: docker push ${{secrets.Docker_ID}}/devops-web-game-server
+#     - name: Docker push
+#       run: docker push ${{secrets.Docker_ID}}/devops-web-game-server
 
-    - run: docker image ls  
+#     - run: docker image ls  
