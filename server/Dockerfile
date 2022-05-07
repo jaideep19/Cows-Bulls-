@@ -4,7 +4,7 @@ WORKDIR ./
 
 COPY package*.json ./
 
-#RUN npm install
+#RUN npm install1
 # If you are building your code for production
 RUN npm ci
 
