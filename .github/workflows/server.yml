@@ -4,6 +4,10 @@ on:
     paths:
       - server/**
       
+defaults:
+ run:
+  working-directory: ./server
+  
 jobs:
       
   Docker-Image-Build:
@@ -18,8 +22,8 @@ jobs:
 #     - name: Making production build
 #       run: npm run build
           
-    - name: Moving to the server directory
-      working-directory: ./server
+#     - name: Moving to the server directory
+#       working-directory: ./server
           
     - name: List files in the repository
       run: |
