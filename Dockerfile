@@ -1,15 +1,11 @@
 FROM node:latest
 
-WORKDIR /app
-
-COPY package.json ./
-
-RUN npm install
+WORKDIR ./
 
 RUN npm install -g serve
 
-RUN npm run build
+COPY build build
 
-COPY build /app
+EXPOSE 3000
 
 CMD serve -s build
