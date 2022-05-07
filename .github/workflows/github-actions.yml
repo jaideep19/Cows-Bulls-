@@ -21,7 +21,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+    
+    - name: Installing required dependencies
+      run: npm install
+      
+    - name: Making production build
+      run: npm run build
           
+    - name: List files in the repository
+      run: |
+          ls ${{ github.workspace }}
+    
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{secrets.Docker_ID}}/devops-web-game
       
