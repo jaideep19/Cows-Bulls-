@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from "react";
 // import { warningOnce } from "react-router/lib/router";
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:3006");
+const socket = io.connect("http://localhost:3030");
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 

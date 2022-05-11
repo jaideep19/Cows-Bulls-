@@ -1,0 +1,16 @@
+version: '3'
+services:
+
+  server:
+    image: "siddhartha2001/devops-web-game-server:latest"
+    container_name: game-server
+    ports:
+      - 3030:3030
+
+  ui:
+    image: "siddhartha2001/devops-web-game:latest"
+    container_name: game-ui
+    ports:
+      - 3000:3000
+    links:
+      - server
