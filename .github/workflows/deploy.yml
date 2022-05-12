@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: ./.github/ansible
+    - uses: ./.github/workflows/ansible
 #     env:
 #        SSH_PASSWORD: ${{secrets.SSH_PASSWORD}}
 #        SSH_USER: ${{secrets.SSH_USER}}
