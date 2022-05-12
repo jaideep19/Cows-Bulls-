@@ -8,12 +8,12 @@
         src: ./docker-compose.yml
         dest: ~/
         
-    - name: Yum repolist for Docker
-      yum_repository:
-        name: docker
-        description: yum repository for docker
-        baseurl: https://download.docker.com/linux/centos/7/x86_64/stable/
-        gpgcheck: no
+#     - name: Yum repolist for Docker
+#       yum_repository:
+#         name: docker
+#         description: yum repository for docker
+#         baseurl: https://download.docker.com/linux/centos/7/x86_64/stable/
+#         gpgcheck: no
         
     - name: Package Installer For Python3 
       package:
