@@ -15,21 +15,21 @@
 #         baseurl: https://download.docker.com/linux/centos/7/x86_64/stable/
 #         gpgcheck: no
         
-    - name: Package Installer For Python3 
-      package:
-        name: python3
-        state: present        
+#     - name: Package Installer For Python3 
+#       package:
+#         name: python3
+#         state: present        
                 
-    - name: Package Installer For docker io 
-      package:
-        name: docker.io
-        state: present
+#     - name: Package Installer For docker io 
+#       package:
+#         name: docker.io
+#         state: present
         
         
-    - name: Package Installer For docker compose 
-      package:
-        name: docker-compose
-        state: present
+#     - name: Package Installer For docker compose 
+#       package:
+#         name: docker-compose
+#         state: present
         
 #     - name: Installing python library for the Docker Remote API
 #       pip:
