@@ -3,7 +3,7 @@ on:
   push:
     paths-ignore:
       - 'server/**'
-#       - '.github/workflows/**'
+      - '.github/workflows/**'
   
 jobs:
 #   Explore-GitHub-Actions:
