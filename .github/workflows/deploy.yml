@@ -2,7 +2,8 @@ name: deploy ansible
 
 on: 
   workflow_run:
-    workflows: ["GitHub Actions Demo", "Node.js server image"]
+    workflows: ["GitHub Actions Demo"]
+    #"Node.js server image"]
     types:
       -completed
 
