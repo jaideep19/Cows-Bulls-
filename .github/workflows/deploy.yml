@@ -1,0 +1,17 @@
+name: deploy ansible
+
+on: 
+  workflow_run:
+    workflows: ["GitHub Actions Demo", "Node.js server image"]
+    types:
+      -completed
+
+jobs:
+  deployAnsible:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: ./.github/ansible
+#     env:
+#        SSH_PASSWORD: ${{secrets.SSH_PASSWORD}}
+#        SSH_USER: ${{secrets.SSH_USER}}
