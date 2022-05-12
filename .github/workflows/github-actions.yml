@@ -4,6 +4,7 @@ on:
     paths-ignore:
       - 'server/**'
       - '.github/workflows/**'
+      - 'p2.yml'
   
 jobs:
 #   Explore-GitHub-Actions:
