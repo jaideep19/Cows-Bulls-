@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from "react";
 import { browserHistory } from "react-router";
 import {Link} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 // import io from "socket.io-client";
 
 // const socket = io.connect("http://localhost:3006");
@@ -8,7 +9,10 @@ import {Link} from "react-router-dom";
 
 function Room () {
   const [room, setRoom] = useState("");
-  const [lngth, setLngth] = useState("3");
+  const [lngth, setLngth] = useState("");
+
+  const location = useLocation();
+  const flg = location.state.flg;
 
   return (
       <div className="container">
@@ -20,9 +24,9 @@ function Room () {
               setRoom(event.target.value);
             }} type="text" value={room} />
 
-            <input placeholder = "Enter the number of digits..." onChange={(event) => {
+            <input style={{display: flg ? 'none' : 'inline'}} placeholder = "Enter the number of digits..." onChange={(event) => {
               setLngth(event.target.value);
-            }} type="text" value={lngth} />  
+            }} type="text" value={lngth} /> 
 
           <Link 
             to={'/multiplayer/room/'+room}

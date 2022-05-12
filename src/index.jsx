@@ -5,7 +5,7 @@ import {BrowserRouter as Router, Route, Routes, browserHistory, IndexRoute} from
 import { createBrowserHistory } from "history";
 
 import Computer from "./components/ComputerGuess";
-import { Root } from "./components/Root"
+import Root from "./components/Root"
 import Room from "./components/Room"
 // // import User from "./components/UserGuess";
 import MultiPlayer  from "./components/MultiPlayer";

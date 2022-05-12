@@ -51,6 +51,16 @@ io.on("connection", (socket) => {
     console.log(rooms);
   });
 
+  socket.on("get_length", (data)=>{
+    console.log(data);
+    socket.to(data).emit("get_lngth", data);
+  })
+
+  socket.on("set_length", (data)=>{
+    console.log(data);
+    socket.to(data.room).emit("set_lngth", data.length);
+  })
+
   socket.on("send_prediction",(data)=>{
     console.log(data);
     socket.to(data.room).emit("receive_prediction",data);
@@ -60,11 +70,17 @@ io.on("connection", (socket) => {
     console.log(data);
     socket.to(data.room).emit("your_prediction",data);
   });
+
+  socket.on("game_status",(data)=>{
+    console.log(data);
+    socket.to(data.room).emit("game_stat",data);
+  });
+
   socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);
   });
-  socket.on("disconnect_user",(data)=>{
-    
+
+  socket.on("disconnect_user",(data)=>{    
     socket.leave(data);
     // console.log("disconnecting");
     // var rm=getRoom(data);
@@ -74,13 +90,17 @@ io.on("connection", (socket) => {
     rooms[index].players=rooms[index].players.filter((item)=> {
       console.log(item);
       return item.socketId !== socketId
-  })
+    })
   // console.log("disconnected",rooms,'');
-  
+    if(io.sockets.adapter.rooms[data]){
+        //if room exist
+        socket.to(data).emit("game_stat",{message:"Disconnected", room:data});    
+    }
+
   });
   
 });
 
-server.listen(3006, () => {
+server.listen(3030, () => {
   console.log("SERVER IS RUNNING");
 });

@@ -4,6 +4,7 @@ import io from "socket.io-client";
 const socket = io.connect("http://localhost:3030");
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
+import PopUp from './PopUp';
 
 function randomNDigitNumberNotStartingWithZero(N){
   
@@ -14,9 +15,9 @@ function randomNDigitNumberNotStartingWithZero(N){
   return parseInt( first + shuffle(digits).join('').substring(0,N-1), 10);
 }
 
-function getHint(secret, guess) {
-  
+function getHint(secret, guess) {  
   secret=''+secret;
+  guess = ''+guess;
   console.log(secret,guess);
   var map = {};
   var A = 0;
@@ -46,10 +47,10 @@ function shuffle(o){x
 
 function MultiPlayer(props) {
   const location = useLocation();
-  const [digitLength, setdigitLength] = useState(location.state.lngth);
+  const [digitLength, setdigitLength] = useState(location.state.lngth.toString());
   var num=randomNDigitNumberNotStartingWithZero(digitLength);
 
-
+  const [output, setOutput] = useState("You Won");
   const [inputText, setInputText] = useState(num);
   const [inputNumber, setInputNumber] = useState(num);
   const [items, setItems] = useState([]);
@@ -57,6 +58,7 @@ function MultiPlayer(props) {
   const [room, setRoom] = useState(location.state.id);
   const [buttonCol, setbuttonCol] = useState("buttonRed");
   var userNum;
+  var id = "myDIV";
   // var num=randomNDigitNumberNotStartingWithZero(digitLength);
   console.log(num);
   const navigate  = useNavigate();
@@ -75,20 +77,20 @@ function MultiPlayer(props) {
     const val = event.target.value;
     userNum=val;
     setInputText(val);    
-    
   }
+
   function inputChange(event) {
     const val = event.target.value;
     userNum=val;
-    setInputNumber(val);    
-    
+    setInputNumber(val);  
   }
+
   function inputChangeButton(){
     let isnum = /^\d+$/.test(inputNumber);
     let val=inputNumber;
     console.log(isnum);
-    console.log(val.length, digitLength);
-    if(!isnum || Number(val.length)!=Number(digitLength)){
+    console.log(val.length, val, String(val).length, digitLength);
+    if(!isnum || Number(String(val).length)!=Number(digitLength)){
         alert("Please enter valid number");
         setInputNumber("");
     }
@@ -97,22 +99,21 @@ function MultiPlayer(props) {
       setInputSubmitNum(true);
     }
   }
-  function addItem() {
-    
+
+  function addItem() {    
     let isnum = /^\d+$/.test(inputText);
     let val=inputText;
     console.log(isnum);
-    if(!isnum || val.length!=Number(digitLength)){
+    if(!isnum || String(val).length!=Number(digitLength)){
         alert("Please enter valid number");
         setInputText("");
     }
-    else{
-      
 
+    else{   
       socket.emit("send_prediction", { message:inputText, room } );
       setbuttonCol("buttonRed");
       setInputText("");
-  }
+    }
   }
   
   function joinRoom (){
@@ -123,24 +124,86 @@ function MultiPlayer(props) {
         setRoom("");
       });
     }
+    if (digitLength == ""){
+      socket.emit("get_length", room);
+    }
   };
+
   function disconnect(){
     socket.emit("disconnect_user",room);
     navigate('/');
     setRoom("");
     console.log(room);
   }
+
+  function myFunction() {
+    var x = document.getElementById("myDIV");
+    if (x.style.display === "block") {
+      x.style.display = "none";
+    } else {
+      x.style.display = "block";
+    }
+  }
   
+  function myFunction1() {
+    var x = document.getElementById("myDIV1");
+    if (x.style.display === "block") {
+      x.style.display = "none";
+    } else {
+      x.style.display = "block";
+    }
+  }
+
+  useEffect(() => {
+    socket.on("set_lngth", (data) => {
+      console.log(data);
+      var l = data.toString();
+      // debugger;
+      setdigitLength(l); 
+      num = randomNDigitNumberNotStartingWithZero(l);
+      setInputNumber(num);
+      setInputText(num);
+      console.log(digitLength, inputNumber, inputText, num);
+    });    
+  }, [socket]);
+
+  useEffect(() => {
+    socket.on("get_lngth", (data) => {
+      socket.emit("set_length", {length:digitLength, room:data});
+    });    
+  }, [socket]);
+
+  useEffect(() => {
+    socket.on("game_stat", (data) => {
+      if(data.message == "Won"){
+        setbuttonCol("buttonRed");
+        setOutput("You Lost");
+        myFunction();
+      }
+
+      else if(data.message == "Disconnected"){
+        setbuttonCol("buttonRed");
+        myFunction1();
+        disconnect(); 
+      }
+    });    
+  }, [socket]);
   
   useEffect(() => {
     socket.on("your_prediction", (data) => {
-
       console.log(inputText);
       setItems(prevItems => {
         return [...prevItems, data.message+" "+data.output];
       });
-    });
+      console.log(digitLength.concat("B0C"));
+      if(data.output == String(digitLength).concat("B0C")){
+        socket.emit("game_status", { message:"Won", room:data.room});
+        setbuttonCol("buttonRed");
+        myFunction();
+      }
+    });    
   }, [socket]);
+
   useEffect(() => {
     socket.on("room_full", (data) => {
       console.log("room_full");
@@ -149,14 +212,14 @@ function MultiPlayer(props) {
   
     });
   }, [socket]);
+
   useEffect(() => {
     socket.on("receive_prediction", (data) => {
       console.log(data);
-      console.log(num,data.message);
+      console.log(num,data.message,inputNumber);
       var ans=getHint(num,data.message);
-      socket.emit("output_prediction",{ message:data.message,output : ans , room:data.room});
+      socket.emit("output_prediction",{ message:data.message, output:ans , room:data.room});
       setbuttonCol("buttonGreen");
-
     });
   }, [socket]);
 
@@ -207,9 +270,22 @@ function MultiPlayer(props) {
           ))}
         </ul>
       </div>
+
+      {/* <button onClick={myFunction}><span>Trigger</span></button> */}
+      <div id="myDIV" style={{display: "none"}}>
+            <h3>{output}</h3>
+            <button>
+                <span>Rematch</span>
+            </button>
+      </div>  
+
+      <div id="myDIV1" style={{display: 'none'}}>
+            <h3>Opponent disconnected. Go Home to join a new room</h3>
+      </div>  
+
       <button onClick={disconnect}>
-          <span>Disconnect</span>
-        </button>
+          <span>Home</span>
+      </button>
     </div>
   );
 }
