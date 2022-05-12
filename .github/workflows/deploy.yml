@@ -7,10 +7,15 @@ name: deploy ansible
 #     types:
 #       -completed
 
-on:
+# on:
+#   push:
+#     paths:
+#       - server/**
+on:      
   push:
-    paths:
-      - server/**
+    paths-ignore:
+      - 'server/**'
+#       - '.github/workflows/**'
 
 jobs:
   deployAnsible:
