@@ -1,11 +1,16 @@
 name: deploy ansible
 
-on: 
-  workflow_run:
-    workflows: ["GitHub Actions Demo"]
-    #"Node.js server image"]
-    types:
-      -completed
+# on: 
+#   workflow_run:
+#     workflows: ["GitHub Actions Demo"]
+#     #"Node.js server image"]
+#     types:
+#       -completed
+
+on:
+  push:
+    paths:
+      - server/**
 
 jobs:
   deployAnsible:
