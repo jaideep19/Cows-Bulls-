@@ -1,0 +1,24 @@
+name: Sonar Cloud
+on: 
+  push:
+    paths-ignore:
+      - 'server/**'
+#       - '.github/workflows/**'
+      - 'p2.yml'
+  
+jobs:
+  Scan:
+    name: static-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
