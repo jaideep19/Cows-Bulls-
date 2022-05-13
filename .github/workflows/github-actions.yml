@@ -37,6 +37,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
+      
+      - name: Files list
+        run: ls
+      
+      - name: cheecking audit folder
+        run: ls audit/ 
         
 #       - name: Auditing  
 #         uses: oke-py/npm-audit-action@v2.2.0
