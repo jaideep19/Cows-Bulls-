@@ -29,7 +29,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: install dependencies
         run: npm ci
-      - uses: oke-py/npm-audit-action@v2
+        
+      - name: Auditing  
+        uses: oke-py/npm-audit-action@v2.2.0
         with:
           audit_level: moderate
           github_token: ${{secrets.TOKEN}}
