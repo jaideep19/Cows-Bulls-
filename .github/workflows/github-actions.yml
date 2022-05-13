@@ -30,41 +30,41 @@ jobs:
       - name: install dependencies
         run: npm ci
       
-      - name: Run audit
-        uses: tangro/actions-audit@v1.1.44
-        with:
-          post-comment: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-      
-      - name: Files list
-        run: ls
-      
-      - name: cheecking audit folder
-        run: ls audit/ 
-        
-      - name: Commit files
-        run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add --all
-          git commit -m "Added Audit files"
-          
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.TOKEN }}
-          branch: ${{ github.ref }}
-        
-#       - name: Auditing  
-#         uses: oke-py/npm-audit-action@v2.2.0
+#       - name: Run audit
+#         uses: tangro/actions-audit@v1.1.44
 #         with:
-#           audit_level: moderate
-#           github_token: ${{secrets.TOKEN}}
-#           issue_assignees: oke-py
-#           issue_labels: vulnerability,test
-#           dedupe_issues: true
+#           post-comment: true
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.TOKEN }}
+#           GITHUB_CONTEXT: ${{ toJson(github) }}
+      
+#       - name: Files list
+#         run: ls
+      
+#       - name: cheecking audit folder
+#         run: ls audit/ 
+        
+#       - name: Commit files
+#         run: |
+#           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+#           git config --local user.name "github-actions[bot]"
+#           git add --all
+#           git commit -m "Added Audit files"
+          
+#       - name: Push changes
+#         uses: ad-m/github-push-action@master
+#         with:
+#           github_token: ${{ secrets.TOKEN }}
+#           branch: ${{ github.ref }}
+        
+      - name: Auditing  
+        uses: oke-py/npm-audit-action@v2.2.0
+        with:
+          audit_level: moderate
+          github_token: ${{secrets.TOKEN}}
+          issue_assignees: oke-py
+          issue_labels: vulnerability,test
+          dedupe_issues: true
       
 #   Docker-Image-Build:
 # #     needs: Scan
