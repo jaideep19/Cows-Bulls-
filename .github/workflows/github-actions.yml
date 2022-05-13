@@ -30,10 +30,13 @@ jobs:
       - name: install dependencies
         run: npm ci
       
-      - name: audit
-        uses: miyajan/npm-audit-pr@v1.0.4
+      - name: Run audit
+        uses: tangro/actions-audit@v1.1.44
         with:
-          token: ${{ secrets.TOKEN }}  
+          post-comment: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_CONTEXT: ${{ toJson(github) }}
         
 #       - name: Auditing  
 #         uses: oke-py/npm-audit-action@v2.2.0
