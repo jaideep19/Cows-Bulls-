@@ -1,4 +1,4 @@
-name: Sonar Cloud
+name: Linting
 on: 
   push:
     paths-ignore:
@@ -35,6 +35,3 @@ jobs:
 
       - name: Run linters
         uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
-          prettier: true
