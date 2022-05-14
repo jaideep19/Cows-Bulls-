@@ -1,39 +1,40 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-const { createServer } = require("http");
-const { Server } = require("socket.io");
-const Client = require("socket.io-client");
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+const Client = require('socket.io-client');
 // import { disconnect } from "process";
-const io = require("socket.io-client");
+const io = require('socket.io-client');
 const mp = require('../index');
 
-describe("my awesome project", () => {
-  let serverSocket, clientSocket, room;
+describe('my awesome project', () => {
+  let serverSocket; let clientSocket; let
+    room;
 
   beforeAll(() => {
-      clientSocket = new Client(`http://localhost:3000`);
-      console.log(clientSocket)
-      serverSocket = mp;
-      room = "123";
-      clientSocket.emit("join_room", room,error => {
-        alert(error);
-      });
+    clientSocket = new Client('http://localhost:3000');
+    console.log(clientSocket);
+    serverSocket = mp;
+    room = '123';
+    clientSocket.emit('join_room', room, (error) => {
+      alert(error);
+    });
   });
 
   afterAll(() => {
     clientSocket.close();
   });
 
-  test("should work", async(done) => {
-    clientSocket.on("game_stat", (arg) => {
+  test('should work', async (done) => {
+    clientSocket.on('game_stat', (arg) => {
       let flg = 0;
-      if(arg == "Won" || arg == "Disconnected"){
-          flg = 1
-      }  
+      if (arg == 'Won' || arg == 'Disconnected') {
+        flg = 1;
+      }
       expect(flg).toBe(1);
       done();
     });
-    clientSocket.emit("game_status", {message: "Won", roomm:room});
+    clientSocket.emit('game_status', { message: 'Won', roomm: room });
   });
 
 //   test("should work (with ack)", (done) => {
@@ -41,7 +42,7 @@ describe("my awesome project", () => {
 //       cb("hola");
 //     });
 //     clientSocket.emit("join_room", room,error => {
-//       serverSocket  
+//       serverSocket
 //       expect(room).toBe("hola");
 //       done();
 //     });

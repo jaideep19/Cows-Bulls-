@@ -1,18 +1,16 @@
-import React, { useState,useEffect } from "react";
-import { browserHistory } from "react-router";
-import {Link} from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import { browserHistory } from 'react-router'
+import { Link, useLocation } from 'react-router-dom'
 // import io from "socket.io-client";
 
 // const socket = io.connect("http://localhost:3006");
 
-
 function Room () {
-  const [room, setRoom] = useState("");
-  const [lngth, setLngth] = useState("");
+  const [room, setRoom] = useState('')
+  const [lngth, setLngth] = useState('')
 
-  const location = useLocation();
-  const flg = location.state.flg;
+  const location = useLocation()
+  const flg = location.state.flg
 
   return (
       <div className="container">
@@ -21,16 +19,16 @@ function Room () {
         </div>
         <div className="form">
           <input placeholder = "Room Number..." onChange={(event) => {
-              setRoom(event.target.value);
-            }} type="text" value={room} />
+            setRoom(event.target.value)
+          }} type="text" value={room} />
 
-            <input style={{display: flg ? 'none' : 'inline'}} placeholder = "Enter the number of digits..." onChange={(event) => {
-              setLngth(event.target.value);
-            }} type="text" value={lngth} /> 
+            <input style={{ display: flg ? 'none' : 'inline' }} placeholder = "Enter the number of digits..." onChange={(event) => {
+              setLngth(event.target.value)
+            }} type="text" value={lngth} />
 
-          <Link 
-            to={'/multiplayer/room/'+room}
-            state={{id:room, lngth:lngth}}
+          <Link
+            to={'/multiplayer/room/' + room}
+            state={{ id: room, lngth }}
           >
             <button type="button"> <span>Enter</span> </button>
           </Link>
@@ -38,8 +36,8 @@ function Room () {
               <button type="button"> <span>Enter</span> </button>
           </Link> */}
         </div>
-      </div> 
-  );
+      </div>
+  )
 }
 
-export default Room;
+export default Room
