@@ -8,7 +8,7 @@ const logger=require('./logger')
 app.use(cors());
 
 const server = http.createServer(app);
-// cons
+// con
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",

@@ -1,0 +1,8 @@
+[ec2]
+54.242.103.140 ansible_user=ubuntu ansible_ssh_pass=Sid@6303837302
+
+[all:vars]
+ansible_connection=ssh
+ansible_user=ubuntu
+ansible_ssh_user=ubuntu 
+ansible_python_interpreter=/usr/bin/python3

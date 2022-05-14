@@ -3,23 +3,10 @@ on:
   push:
     paths-ignore:
       - 'server/**'
-#       - '.github/workflows/**'
+      - '.github/workflows/**'
+      - 'p2.yml'
   
 jobs:
-#   Explore-GitHub-Actions:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-#       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-#       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-#       - name: Check out repository code
-#         uses: actions/checkout@v3
-#       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-#       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-#       - name: List files in the repository
-#         run: |
-#           ls ${{ github.workspace }}
-#       - run: echo "🍏 This job's status is ${{ job.status }}."
 
   Scan:
     name: npm audit
@@ -28,16 +15,45 @@ jobs:
       - uses: actions/checkout@v2
       - name: install dependencies
         run: npm ci
-      - uses: oke-py/npm-audit-action@v2
+        
+      - name: delete audit folder 
+        run: rm -rf audit
+      
+      - name: Run audit
+        uses: tangro/actions-audit@v1.1.44
         with:
-          audit_level: moderate
-          github_token: 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
-          issue_assignees: oke-py
-          issue_labels: vulnerability,test
-          dedupe_issues: true
+          post-comment: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+           
+      - name: cheecking audit folder
+        run: ls audit/ 
+        
+      - name: Commit files
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add --all
+          git commit -m "Added Audit files"
+          
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.TOKEN }}
+          branch: ${{ github.ref }}
+        
+#       - name: Auditing  
+#         uses: oke-py/npm-audit-action@v2.2.0
+#         with:
+#           audit_level: moderate
+#           github_token: ${{secrets.TOKEN}}
+#           issue_assignees: oke-py
+#           issue_labels: vulnerability,test
+#           dedupe_issues: true
       
 #   Docker-Image-Build:
-#     needs: Scan
+# #     needs: Scan
 #     runs-on: ubuntu-latest
 #     steps:
 #     - uses: actions/checkout@v3
