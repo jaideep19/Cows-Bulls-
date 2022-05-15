@@ -15,7 +15,7 @@ on:
   push:
     paths-ignore:
       - 'server/**'
-#       - '.github/workflows/**'
+      - '.github/workflows/**'
 
   workflow_run:
     workflows: ["GitHub Actions Demo", "Node.js server image"]
