@@ -18,7 +18,7 @@ on:
 #       - '.github/workflows/**'
 
   workflow_run:
-    workflows: ["GitHub Actions Demo", "Node.js server image", "Sonar Cloud"]
+    workflows: ["GitHub Actions Demo", "Node.js server image"]
     types:
       -completed
 
