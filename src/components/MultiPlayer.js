@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useState, useEffect } from 'react'
 // import { warningOnce } from "react-router/lib/router";
 import io from 'socket.io-client'
