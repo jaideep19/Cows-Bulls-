@@ -1,5 +1,5 @@
 [ec2]
-54.242.103.140 ansible_user=ubuntu ansible_ssh_pass=Sid@6303837302
+54.165.227.1 ansible_user=ubuntu ansible_ssh_pass=Sid@6303837302
 
 [all:vars]
 ansible_connection=ssh
