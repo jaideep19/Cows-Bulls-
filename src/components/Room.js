@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useState, useEffect } from 'react'
 import { browserHistory } from 'react-router'
 import { Link, useLocation } from 'react-router-dom'
