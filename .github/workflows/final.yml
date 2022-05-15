@@ -1,4 +1,4 @@
-name: GitHub Actions Demo
+name: Pipeline
 on: 
   push:
     paths-ignore:
@@ -47,7 +47,8 @@ jobs:
           
   Audit-backend: 
     name: npm audit
-    allow_failure: true
+    if: always()
+#     needs: [job1, job2]
     defaults:
      run:
       working-directory: ./server
