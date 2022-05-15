@@ -1,0 +1,90 @@
+name: GitHub Actions Demo
+on: 
+  push:
+    paths-ignore:
+#       - 'server/**'
+#       - '.github/workflows/**'
+      - 'p2.yml'
+
+jobs:
+  
+#   Audit-frontend: 
+#     name: npm audit
+#     allow_failure: true
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: install dependencies
+#         run: npm ci
+        
+#       - name: delete audit folder 
+#         run: rm -rf audit
+      
+#       - name: Run audit
+#         uses: tangro/actions-audit@v1.1.44
+#         with:
+#           post-comment: true
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.TOKEN }}
+#           GITHUB_CONTEXT: ${{ toJson(github) }}
+           
+#       - name: cheecking audit folder
+#         run: ls audit/ 
+        
+#       - name: Commit Audit output
+#         run: |
+#           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+#           git config --local user.name "github-actions[bot]"
+#           # git add --all
+#           # git commit -m "Added Audit files"
+#           git diff-index --quiet HEAD || (git commit -a -m'[bot] update files' --allow-empty && git push -f)
+          
+#       - name: Push Audit output changes
+#         uses: ad-m/github-push-action@master
+#         with:
+#           github_token: ${{ secrets.TOKEN }}
+#           branch: ${{ github.ref }}
+          
+  Audit-backend: 
+    name: npm audit
+    allow_failure: true
+    defaults:
+     run:
+      working-directory: ./server
+      
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: install dependencies
+        run: npm ci
+        
+      - name: delete audit folder 
+        run: rm -rf audit
+      
+      - name: Run audit
+        uses: tangro/actions-audit@v1.1.44
+        with:
+          post-comment: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+           
+      - name: cheecking audit folder
+        run: ls audit/ 
+        
+#       - name: Commit Audit output
+#         run: |
+#           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+#           git config --local user.name "github-actions[bot]"
+#           # git add --all
+#           # git commit -m "Added Audit files"
+#           git diff-index --quiet HEAD || (git commit -a -m'[bot] update files' --allow-empty && git push -f)
+          
+#       - name: Push Audit output changes
+#         uses: ad-m/github-push-action@master
+#         with:
+#           github_token: ${{ secrets.TOKEN }}
+#           branch: ${{ github.ref }}     
+          
+          
+          
