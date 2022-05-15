@@ -53,38 +53,38 @@ jobs:
 #           issue_labels: vulnerability,test
 #           dedupe_issues: true
       
-#   Docker-Image-Build:
-# #     needs: Scan
-#     runs-on: ubuntu-latest
-#     steps:
-#     - uses: actions/checkout@v3
-#     - uses: actions/setup-node@v3
+  Docker-Image-Build:
+    needs: Scan
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
     
-#     - name: Installing required dependencies
-#       run: npm install
+    - name: Installing required dependencies
+      run: npm install
       
-#     - name: Making production build
-#       run: npm run build
+    - name: Making production build
+      run: npm run build
           
-#     - name: List files in the repository
-#       run: |
-#           ls ${{ github.workspace }}
+    - name: List files in the repository
+      run: |
+          ls ${{ github.workspace }}
     
-#     - name: Build the Docker image
-#       run: docker build . --file Dockerfile --tag ${{secrets.Docker_ID}}/devops-web-game
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ${{secrets.Docker_ID}}/devops-web-game
       
-#     - name: List files in the repository
-#       run: |
-#           ls ${{ github.workspace }} -a
-#     - run: docker image ls
+    - name: List files in the repository
+      run: |
+          ls ${{ github.workspace }} -a
+    - run: docker image ls
           
-#     - name: Docker Login
-#       env: 
-#         Docker_ID: ${{secrets.Docker_ID}}
-#         Docker_PSWD: ${{secrets.Docker_PSWD}}
-#       run: docker login -u $Docker_ID -p $Docker_PSWD
+    - name: Docker Login
+      env: 
+        Docker_ID: ${{secrets.Docker_ID}}
+        Docker_PSWD: ${{secrets.Docker_PSWD}}
+      run: docker login -u $Docker_ID -p $Docker_PSWD
       
-#     - name: Docker push
-#       run: docker push ${{secrets.Docker_ID}}/devops-web-game
+    - name: Docker push
+      run: docker push ${{secrets.Docker_ID}}/devops-web-game
 
-#     - run: docker image ls
+    - run: docker image ls
