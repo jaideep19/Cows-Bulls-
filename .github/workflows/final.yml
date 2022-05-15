@@ -179,6 +179,7 @@ jobs:
       - run: docker image ls     
       
   Docker-Image-backend:
+      needs: [build2]
       runs-on: ubuntu-latest
       defaults:
        run:
