@@ -17,6 +17,11 @@ on:
       - 'server/**'
 #       - '.github/workflows/**'
 
+  workflow_run:
+    workflows: ["GitHub Actions Demo", "Node.js server image", "Sonar Cloud"]
+    types:
+      -completed
+
 jobs:
   deployAnsible:
     runs-on: ubuntu-latest
