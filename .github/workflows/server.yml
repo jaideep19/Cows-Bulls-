@@ -1,8 +1,5 @@
 name: Node.js server image
-on:
-  push:
-    paths:
-      - server/**
+on: [push]
       
 defaults:
  run:
