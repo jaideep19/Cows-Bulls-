@@ -5,6 +5,11 @@ on:
       - 'server/**'
 #       - '.github/workflows/**'
       - 'p2.yml'
+      
+  workflow_run:
+    workflows: ["GitHub Actions Demo"]
+    types:
+      - completed
   
 jobs:
   Scan:
@@ -16,12 +21,12 @@ jobs:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
 
-#       - name: Lint Code Base
-#         uses: github/super-linter@v4
-#         env:
-#           VALIDATE_ALL_CODEBASE: true
-#           DEFAULT_BRANCH: master
-#           GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: true
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
