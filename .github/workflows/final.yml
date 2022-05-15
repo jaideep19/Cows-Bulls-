@@ -143,7 +143,7 @@ jobs:
             
   Docker-Image-frontend:
       name: Docker build frontend
-      needs: [build1, test1, Static-code-check]
+      needs: [build1, test1, Linter, Static-code-check]
       runs-on: ubuntu-latest
       steps:
       - uses: actions/checkout@v3
