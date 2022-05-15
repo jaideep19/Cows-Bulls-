@@ -5,6 +5,11 @@ on:
       - 'server/**'
       - '.github/workflows/**'
       - 'p2.yml'
+      
+  workflow_run:
+    workflows: ["GitHub Actions Demo"]
+    types:
+      - completed
   
 jobs:
   Scan:
