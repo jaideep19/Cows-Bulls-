@@ -283,7 +283,7 @@ function MultiPlayer (props) {
   )
 }
 
-// module.exports.getHint = getHint;
-// module.exports.randomNDigitNumberNotStartingWithZero = randomNDigitNumberNotStartingWithZero;
+module.exports.getHint = getHint;
+module.exports.randomNDigitNumberNotStartingWithZero = randomNDigitNumberNotStartingWithZero;
 
 export default MultiPlayer
