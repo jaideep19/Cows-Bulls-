@@ -15,7 +15,7 @@ on:
   push:
     paths-ignore:
       - 'server/**'
-      - '.github/workflows/**'
+#       - '.github/workflows/**'
 
 jobs:
   deployAnsible:
