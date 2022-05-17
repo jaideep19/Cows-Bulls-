@@ -97,23 +97,23 @@ jobs:
 #     - name: Running test
 #       run: npm test 
       
-#   test2:
-#     needs: [build1, build2]
-#     defaults:
-#      run:
-#       working-directory: ./server  
-#     name: Test socket
-#     runs-on: ubuntu-latest
-#     steps:
-#     - uses: actions/checkout@v3
-#     - uses: actions/setup-node@v3
+  test2:
+    needs: build2
+    defaults:
+     run:
+      working-directory: ./server  
+    name: Test socket
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
     
-#     - name: Running test
-#       run: npm test 
+    - name: Running
+      run: npm ci 
   
   Linter:
       name: Lint
-      needs: [build1]
+      needs: [test1, test2]
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v3
@@ -130,7 +130,7 @@ jobs:
             
   Static-code-check:
       name: static-check
-      needs: [build1]
+      needs: [test1, test2]
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v3
@@ -144,89 +144,89 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.TOKEN }}
             SONAR_TOKEN: ${{ secrets.SONAR }} 
             
-#   Docker-Image-frontend:
-#       name: Docker build frontend
-#       needs: [build1, test1, Linter, Static-code-check]
-#       runs-on: ubuntu-latest
-#       steps:
-#       - uses: actions/checkout@v3
-#       - uses: actions/setup-node@v3
+  Docker-Image-frontend:
+      name: Docker build frontend
+      needs: [build1, test1, Linter, Static-code-check]
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
 
-#       - name: Installing required dependencies
-#         run: npm install
+      - name: Installing required dependencies
+        run: npm install
 
-#       - name: Making production build
-#         run: npm run build
+      - name: Making production build
+        run: npm run build
 
-#       - name: List files in the repository
-#         run: |
-#             ls ${{ github.workspace }}
+      - name: List files in the repository
+        run: |
+            ls ${{ github.workspace }}
 
-#       - name: Build the Docker image
-#         run: docker build . --file Dockerfile --tag ${{secrets.Docker_ID}}/devops-web-game
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag ${{secrets.Docker_ID}}/devops-web-game
 
-#       - name: List files in the repository
-#         run: |
-#             ls ${{ github.workspace }} -a
-#       - run: docker image ls
+      - name: List files in the repository
+        run: |
+            ls ${{ github.workspace }} -a
+      - run: docker image ls
 
-#       - name: Docker Login
-#         env: 
-#           Docker_ID: ${{secrets.Docker_ID}}
-#           Docker_PSWD: ${{secrets.Docker_PSWD}}
-#         run: docker login -u $Docker_ID -p $Docker_PSWD
+      - name: Docker Login
+        env: 
+          Docker_ID: ${{secrets.Docker_ID}}
+          Docker_PSWD: ${{secrets.Docker_PSWD}}
+        run: docker login -u $Docker_ID -p $Docker_PSWD
 
-#       - name: Docker push
-#         run: docker push ${{secrets.Docker_ID}}/devops-web-game
+      - name: Docker push
+        run: docker push ${{secrets.Docker_ID}}/devops-web-game
 
-#       - run: docker image ls     
+      - run: docker image ls     
       
-#   Docker-Image-backend:
-#       needs: [build2]
-#       runs-on: ubuntu-latest
-#       defaults:
-#        run:
-#         working-directory: ./server
+  Docker-Image-backend:
+      needs: [build2, test2, Linter, Static-code-check]
+      runs-on: ubuntu-latest
+      defaults:
+       run:
+        working-directory: ./server
         
-#       steps:
-#       - uses: actions/checkout@v3
-#       - uses: actions/setup-node@v3
+      steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
 
-#       - name: List files in the repository
-#         run: |
-#             ls
+      - name: List files in the repository
+        run: |
+            ls
             
-#       - name: Build the Docker image
-#         run: docker build . --file Dockerfile --tag ${{secrets.Docker_ID}}/devops-web-game-server
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag ${{secrets.Docker_ID}}/devops-web-game-server
 
-#       - name: List files in the repository
-#         run: |
-#             ls ${{ github.workspace }} -a
-#       - run: docker image ls
+      - name: List files in the repository
+        run: |
+            ls ${{ github.workspace }} -a
+      - run: docker image ls
 
-#       - name: Docker Login
-#         env: 
-#           Docker_ID: ${{secrets.Docker_ID}}
-#           Docker_PSWD: ${{secrets.Docker_PSWD}}
-#         run: docker login -u $Docker_ID -p $Docker_PSWD
+      - name: Docker Login
+        env: 
+          Docker_ID: ${{secrets.Docker_ID}}
+          Docker_PSWD: ${{secrets.Docker_PSWD}}
+        run: docker login -u $Docker_ID -p $Docker_PSWD
 
-#       - name: Docker push
-#         run: docker push ${{secrets.Docker_ID}}/devops-web-game-server
-#       - run: docker image ls
+      - name: Docker push
+        run: docker push ${{secrets.Docker_ID}}/devops-web-game-server
+      - run: docker image ls
       
-#   deployAnsible:
-#       needs: [Docker-Image-frontend, Docker-Image-backend]
-#       name: Deploying to AWS
+  deployAnsible:
+      needs: [Docker-Image-frontend, Docker-Image-backend]
+      name: Deploying to AWS
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v1
+      - uses: ./.github/workflows/ansible
+            
+#   ELK:
+#       needs: [deployAnsible]
+#       name: ELK on AWS
 #       runs-on: ubuntu-latest
 #       steps:
 #       - uses: actions/checkout@v1
-#       - uses: ./.github/workflows/ansible
-            
-# #   ELK:
-# #       needs: [deployAnsible]
-# #       name: ELK on AWS
-# #       runs-on: ubuntu-latest
-# #       steps:
-# #       - uses: actions/checkout@v1
-# #       - uses: ./.github/workflows/ansible-elk       
+#       - uses: ./.github/workflows/ansible-elk       
       
